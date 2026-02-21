@@ -30,6 +30,86 @@
   font-weight: 600;
 }
 
+.modal-card textarea {
+  width: 80%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 3px solid #111;
+  background: rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  resize: vertical;
+  min-height: 72px;
+}
+
+.modal-card label {
+  display: block;
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin: 8px 0 16px 0;
+  justify-items: center;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* Make select match input/textarea style */
+.modal-card select {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 3px solid #111;
+  background: rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  color: #111;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Actions container to align buttons and provide spacing */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.modal-card button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  min-width: 84px;
+  font-weight: 700;
+}
+
+.modal-card button.secondary {
+  background: transparent;
+  color: #111;
+  border: 3px solid #111;
+}
+
+.swatch.selected {
+  outline: 3px solid #111;
+  transform: scale(1.06);
+}
+
 .modal-card button {
   margin-right: 10px;
   padding: 6px 12px;
