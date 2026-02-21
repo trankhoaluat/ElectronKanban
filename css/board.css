@@ -1,0 +1,70 @@
+.board {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 60px);
+  box-sizing: border-box;
+}
+
+.column {
+  flex: 1;
+  background: #1a2127;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 0 1px #2a323a;
+  overflow: hidden;
+}
+
+.column-header {
+  padding: 14px;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid #2a323a;
+}
+
+#projects,
+#todo,
+#doing,
+#done {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+/* ---------- CARD ---------- */
+
+.card {
+  background: #c3b22e;
+  color: #111;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  box-shadow: 0 3px 0 #000;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.column-footer {
+  padding: 10px;
+  border-top: 1px solid #2a323a;
+}
+
+.column-footer button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background: #2a323a;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.column-footer button:hover {
+  background: #38424a;
+}

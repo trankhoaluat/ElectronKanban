@@ -1,0 +1,46 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: linear-gradient(180deg, #1e252c, #111);
+  color: #eaeaea;
+}
+
+/* ---------- TOP BAR ---------- */
+
+.topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: #141a20;
+  border-bottom: 1px solid #222;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.timer {
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+/* ---------- FLOAT BUTTON ---------- */
+
+.fab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  font-size: 30px;
+  border: none;
+  background: #2bb3d6;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}

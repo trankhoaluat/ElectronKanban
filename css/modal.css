@@ -1,0 +1,41 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-card {
+  width: 400px;
+  background: #b8aa2e;
+  padding: 20px;
+  border-radius: 12px;
+  color: #111;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal-card input {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 3px solid #111;
+  background: rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+.modal-card button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
+  color: white;
+  cursor: pointer;
+}

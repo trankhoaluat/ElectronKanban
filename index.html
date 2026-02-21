@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Kanban Pomodoro</title>
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="title">✔ Kanban Pomodoro</div>
+    <div class="timer">25:00</div>
+  </div>
+
+  <div class="board">
+
+    <div class="column">
+      <div class="column-header">PROJECT</div>
+      <div id="projects"></div>
+      <div class="column-footer">
+        <button id="createProjectBtn">Create New Project</button>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="column-header">TODO</div>
+      <div id="todo"></div>
+      <div class="column-footer">
+        <button id="createTaskBtn">Create New Task</button>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="column-header">DOING</div>
+      <div id="doing"></div>
+    </div>
+
+    <div class="column">
+      <div class="column-header">DONE</div>
+      <div id="done"></div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="taskModal" class="modal hidden"></div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/tasks.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
