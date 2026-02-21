@@ -5,6 +5,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Overlay that centers the modal card */
 }
 
 .hidden {
@@ -18,20 +19,22 @@
   border-radius: 12px;
   color: #111;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  /* The modal container (card): background, padding, size */
 }
 
 .modal-card input {
   width: 100%;
-  padding: 8px;
+  padding: 8px 1px;
   margin: 10px 0;
   border-radius: 8px;
   border: 3px solid #111;
   background: rgba(0, 0, 0, 0.1);
   font-weight: 600;
+  /* Generic input styles used by Title and other inputs */
 }
 
 .modal-card textarea {
-  width: 80%;
+  width: 100%;
   padding: 8px;
   margin: 10px 0;
   border-radius: 8px;
@@ -40,12 +43,14 @@
   font-weight: 600;
   resize: vertical;
   min-height: 72px;
+  /* Description textarea: same visual style as inputs, but resizable and taller */
 }
 
 .modal-card label {
   display: block;
   margin-top: 8px;
   font-weight: 700;
+  /* Labels above each field inside the modal */
 }
 
 .color-palette {
@@ -54,6 +59,7 @@
   gap: 8px;
   margin: 8px 0 16px 0;
   justify-items: center;
+  /* Color palette grid used by the color swatches */
 }
 
 .swatch {
@@ -63,6 +69,7 @@
   border: 3px solid rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   cursor: pointer;
+  /* Individual color swatch */
 }
 
 /* Make select match input/textarea style */
@@ -77,7 +84,33 @@
   color: #111;
   -webkit-appearance: none;
   -moz-appearance: none;
+  /* Select (Status) — styled to match inputs */
   appearance: none;
+}
+
+/* Ensure number inputs (Sessions) and the status select match visually */
+.modal-card input[type="number"],
+.modal-card select {
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 1.2;
+  /* Make number inputs (Work/Break/Sessions) and Status select consistent in size */
+  height: 40px;
+  padding: 8px;
+}
+
+/* Make Title input and Description textarea visually consistent */
+.modal-card input[type="text"],
+.modal-card textarea {
+  box-sizing: border-box;
+  /* Title input and Description textarea share font/spacing rules */
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 8px;
+}
+
+.modal-card input[type="text"] {
+  height: 40px;
 }
 
 /* Actions container to align buttons and provide spacing */

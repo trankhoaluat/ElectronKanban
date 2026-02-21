@@ -6,7 +6,7 @@ const Modal = {
       <div class="modal-card">
         <h3>Edit Task</h3>
         <label>Title</label>
-        <input id="editTitle" value="${task.text}" />
+        <input id="editTitle" type="text" value="${task.text}" />
 
         <label>Description</label>
         <textarea id="editDescription">${task.description || ""}</textarea>
