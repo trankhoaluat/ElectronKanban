@@ -87,6 +87,42 @@ init() {
     const timerBtn = document.getElementById('timerToggleBtn')
     if (timerBtn) timerBtn.onclick = () => App.toggleTimer()
 
+    // Wire menu button toggle
+    const menuBtn = document.getElementById('menuBtn')
+    const menu = document.getElementById('menu')
+    if (menuBtn && menu) {
+      menuBtn.onclick = () => menu.classList.toggle('hidden')
+      // Close menu when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.menu-container')) {
+          menu.classList.add('hidden')
+        }
+      })
+    }
+
+    // Wire export button
+    const exportBtn = document.getElementById('exportBtn')
+    if (exportBtn) {
+      exportBtn.onclick = () => {
+        Export.downloadJSON(App.data)
+        menu.classList.add('hidden')
+      }
+    }
+
+    // Wire import button
+    const importBtn = document.getElementById('importBtn')
+    if (importBtn) {
+      importBtn.onclick = () => {
+        Export.uploadJSON((imported) => {
+          if (!confirm('This will replace all current projects and tasks. Continue?')) return
+          App.data = imported
+          Storage.save(App.data)
+          App.render()
+        })
+        menu.classList.add('hidden')
+      }
+    }
+
     // initialize timer display from defaults
     this.timerRemaining = this.timerDuration
     this.updateTimerDisplay()

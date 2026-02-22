@@ -28,6 +28,79 @@ body {
   letter-spacing: 2px;
 }
 
+.timer-btn,
+.menu-btn {
+  background: #2a3239;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 12px;
+  transition: background 0.2s;
+}
+
+.timer-btn:hover,
+.menu-btn:hover {
+  background: #3a424a;
+}
+
+/* Menu container and dropdown */
+.menu-container {
+  position: relative;
+  margin-left: auto;
+}
+
+.menu-btn {
+  margin-left: 0;
+  font-size: 18px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #1a2127;
+  border: 1px solid #2a323a;
+  border-radius: 6px;
+  min-width: 140px;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.dropdown-menu.hidden {
+  display: none;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: #eaeaea;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.dropdown-item:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.dropdown-item:last-child {
+  border-radius: 0 0 6px 6px;
+}
+
+.dropdown-item:hover {
+  background: #2a323a;
+}
+
 /* ---------- FLOAT BUTTON ---------- */
 
 .fab {

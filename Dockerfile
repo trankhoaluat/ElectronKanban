@@ -4,7 +4,12 @@ WORKDIR /work
 
 # Copy package files and install deps first for layer caching
 COPY package.json package-lock.json* ./
-RUN npm ci --production=false --ignore-scripts
+# Use `npm ci` when a lockfile is present, otherwise fall back to `npm install`
+RUN if [ -f package-lock.json ]; then \
+			npm ci --production=false --ignore-scripts; \
+		else \
+			npm install --production=false --ignore-scripts; \
+		fi
 
 # Copy rest of the source
 COPY . .
