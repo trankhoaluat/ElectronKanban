@@ -1,0 +1,32 @@
+name: Build Electron (Docker)
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU (for cross-arch, optional)
+        uses: docker/setup-qemu-action@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t electron-builder:latest .
+
+      - name: Run build inside container
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/work -w /work electron-builder:latest sh -c "npm ci && npm run dist"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: electron-app
+          path: dist/**
