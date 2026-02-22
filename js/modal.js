@@ -188,3 +188,76 @@ Modal.openProject = function(data, project) {
 
   document.getElementById('cancelProjectBtn').onclick = Modal.close
 }
+
+// Open modal to create a new project (works without window.prompt)
+Modal.createProject = function(data) {
+  const modal = document.getElementById('taskModal')
+  modal.innerHTML = `
+    <div class="modal-card">
+      <h3>New Project</h3>
+      <label>Title</label>
+      <input id="newProjectTitle" type="text" value="" />
+
+      <label>Description</label>
+      <textarea id="newProjectDescription"></textarea>
+
+      <label>Color</label>
+      <input id="newProjectColor" type="hidden" value="#F9C74F" />
+      <div id="newProjectColorPalette" class="color-palette">
+        <div class="swatch" data-color="#F94144" style="background:#F94144"></div>
+        <div class="swatch" data-color="#F3722C" style="background:#F3722C"></div>
+        <div class="swatch" data-color="#F8961E" style="background:#F8961E"></div>
+        <div class="swatch" data-color="#F9C74F" style="background:#F9C74F"></div>
+        <div class="swatch" data-color="#90BE6D" style="background:#90BE6D"></div>
+        <div class="swatch" data-color="#43AA8B" style="background:#43AA8B"></div>
+        <div class="swatch" data-color="#577590" style="background:#577590"></div>
+        <div class="swatch" data-color="#277DA1" style="background:#277DA1"></div>
+        <div class="swatch" data-color="#8338EC" style="background:#8338EC"></div>
+        <div class="swatch" data-color="#3A0CA3" style="background:#3A0CA3"></div>
+        <div class="swatch" data-color="#FF6B6B" style="background:#FF6B6B"></div>
+        <div class="swatch" data-color="#4D908E" style="background:#4D908E"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="createProjectSave">Create</button>
+        <button id="createProjectCancel">Cancel</button>
+      </div>
+    </div>
+  `
+
+  modal.classList.remove('hidden')
+
+  document.getElementById('createProjectSave').onclick = () => {
+    const name = document.getElementById('newProjectTitle').value.trim()
+    if (!name) return alert('Project name required')
+
+    // create via Projects.add so IDs and selection logic remain consistent
+    Projects.add(data, name)
+    // update the created project with additional fields
+    const created = data.projects.find(p => p.id === data.selectedProject)
+    if (created) {
+      created.description = document.getElementById('newProjectDescription').value
+      created.color = document.getElementById('newProjectColor').value
+    }
+
+    Storage.save(data)
+    App.render()
+    Modal.close()
+  }
+
+  // palette interactivity
+  const palette = document.getElementById('newProjectColorPalette')
+  if (palette) {
+    const current = document.getElementById('newProjectColor').value
+    palette.querySelectorAll('.swatch').forEach(s => {
+      if (s.dataset.color === current) s.classList.add('selected')
+      s.onclick = () => {
+        palette.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'))
+        s.classList.add('selected')
+        document.getElementById('newProjectColor').value = s.dataset.color
+      }
+    })
+  }
+
+  document.getElementById('createProjectCancel').onclick = Modal.close
+}

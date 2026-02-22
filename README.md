@@ -178,3 +178,18 @@ MIT
 ## Author
 
 Built with ❤️ for productive focus.
+
+### install nvm
+curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+
+### load nvm into current shell (run the appropriate lines the installer prints too)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+### install Node 16 LTS and use it
+nvm install 16
+nvm use 16
+
+### verify
+node -v
+npm -v

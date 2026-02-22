@@ -2,8 +2,8 @@ const App = {
   data: Storage.load(),
 
   // Timer settings (seconds)
-  timerDuration: 10,  
-  timerRemaining: 5, // 25*60
+  timerDuration: 25 * 60, // 25 minutes
+  timerRemaining: 25 * 60, // 25*60
   timerInterval: null,
   timerRunning: false,  audioContext: null,
 
@@ -118,12 +118,8 @@ init() {
 
   document.getElementById("createProjectBtn")
     .onclick = () => {
-      const name = prompt("Project name?")
-      if (!name) return
-
-      Projects.add(App.data, name)
-      Storage.save(App.data)
-      App.render()
+      // Use modal-based creation to avoid reliance on window.prompt (packaged apps)
+      Modal.createProject(App.data)
     }
 
   document.getElementById("createTaskBtn")
