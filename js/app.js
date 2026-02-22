@@ -2,8 +2,8 @@ const App = {
   data: Storage.load(),
 
   // Timer settings (seconds)
-  timerDuration: 25 * 60,
-  timerRemaining: 25 * 60,
+  timerDuration: 25 * 60,  
+  timerRemaining: 10, // 25*60
   timerInterval: null,
   timerRunning: false,
 
@@ -11,6 +11,49 @@ const App = {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0')
     const s = (seconds % 60).toString().padStart(2, '0')
     return `${m}:${s}`
+  },
+
+  playDing() {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+      const now = audioContext.currentTime
+      const duration = 0.5
+
+      // Create a beep tone
+      const osc = audioContext.createOscillator()
+      const gain = audioContext.createGain()
+
+      osc.connect(gain)
+      gain.connect(audioContext.destination)
+
+      osc.frequency.value = 800
+      osc.type = 'sine'
+
+      gain.gain.setValueAtTime(0.3, now)
+      gain.gain.exponentialRampToValueAtTime(0.01, now + duration)
+
+      osc.start(now)
+      osc.stop(now + duration)
+
+      // Add a second beep for a "ding" effect
+      const osc2 = audioContext.createOscillator()
+      const gain2 = audioContext.createGain()
+
+      osc2.connect(gain2)
+      gain2.connect(audioContext.destination)
+
+      osc2.frequency.value = 1000
+      osc2.type = 'sine'
+
+      gain2.gain.setValueAtTime(0.2, now + 0.1)
+      gain2.gain.exponentialRampToValueAtTime(0.01, now + duration + 0.1)
+
+      osc2.start(now + 0.1)
+      osc2.stop(now + duration + 0.1)
+    } catch (e) {
+      // Fallback if audio context not available
+      console.log('Audio context unavailable, skipping ding')
+    }
   },
 
   updateTimerDisplay() {
@@ -27,6 +70,7 @@ const App = {
     this.updateTimerDisplay()
     this.timerInterval = setInterval(() => {
       if (this.timerRemaining <= 0) {
+        this.playDing()
         this.stopTimer()
         return
       }
@@ -126,6 +170,12 @@ init() {
     // initialize timer display from defaults
     this.timerRemaining = this.timerDuration
     this.updateTimerDisplay()
+
+    // Auto-start timer if there's already a task in DOING
+    const doingTask = this.data.tasks.find(t => t.projectId === this.data.selectedProject && t.status === 'doing')
+    if (doingTask) {
+      this.startTimer()
+    }
 
     App.render()
   },
