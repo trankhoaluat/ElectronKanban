@@ -2,11 +2,20 @@ const App = {
   data: Storage.load(),
 
   // Timer settings (seconds)
-  timerDuration: 25 * 60,  
-  timerRemaining: 10, // 25*60
+  timerDuration: 10,  
+  timerRemaining: 5, // 25*60
   timerInterval: null,
-  timerRunning: false,
+  timerRunning: false,  audioContext: null,
 
+  initAudioContext() {
+    if (!this.audioContext) {
+      try {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)()
+      } catch (e) {
+        console.log('Audio context not available')
+      }
+    }
+  },
   formatTime(seconds) {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0')
     const s = (seconds % 60).toString().padStart(2, '0')
@@ -14,46 +23,52 @@ const App = {
   },
 
   playDing() {
-    try {
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)()
-      const now = audioContext.currentTime
-      const duration = 0.5
-
-      // Create a beep tone
-      const osc = audioContext.createOscillator()
-      const gain = audioContext.createGain()
-
-      osc.connect(gain)
-      gain.connect(audioContext.destination)
-
-      osc.frequency.value = 800
-      osc.type = 'sine'
-
-      gain.gain.setValueAtTime(0.3, now)
-      gain.gain.exponentialRampToValueAtTime(0.01, now + duration)
-
-      osc.start(now)
-      osc.stop(now + duration)
-
-      // Add a second beep for a "ding" effect
-      const osc2 = audioContext.createOscillator()
-      const gain2 = audioContext.createGain()
-
-      osc2.connect(gain2)
-      gain2.connect(audioContext.destination)
-
-      osc2.frequency.value = 1000
-      osc2.type = 'sine'
-
-      gain2.gain.setValueAtTime(0.2, now + 0.1)
-      gain2.gain.exponentialRampToValueAtTime(0.01, now + duration + 0.1)
-
-      osc2.start(now + 0.1)
-      osc2.stop(now + duration + 0.1)
-    } catch (e) {
-      // Fallback if audio context not available
-      console.log('Audio context unavailable, skipping ding')
+    // Try browser notification first
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('⏰ Pomodoro Complete!', {
+        body: 'Time is up! Take a break or start a new task.',
+        icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="75" font-size="80">⏰</text></svg>'
+      })
     }
+
+    // Also play audio
+    if (!this.audioContext) return
+    
+    try {
+      const now = this.audioContext.currentTime
+      const beepGap = 0.1 // Gap between beeps within a cluster
+      const clusterGap = 0.6 // Gap between clusters
+      const frequencies = [800, 900, 800, 900, 800, 900, 1000]
+      const volume = 0.35
+
+      // Play 3 clusters of 7 beeps
+      for (let cluster = 0; cluster < 3; cluster++) {
+        const clusterStart = now + cluster * clusterGap
+        frequencies.forEach((freq, i) => {
+          this.playBeep(freq, volume, clusterStart + beepGap * i)
+        })
+      }
+    } catch (e) {
+      console.log('Error playing audio:', e)
+    }
+  },
+
+  playBeep(frequency, gain, startTime) {
+    const duration = 0.15 // Shorter beep for rapid pattern
+    const osc = this.audioContext.createOscillator()
+    const gainNode = this.audioContext.createGain()
+
+    osc.connect(gainNode)
+    gainNode.connect(this.audioContext.destination)
+
+    osc.frequency.value = frequency
+    osc.type = 'sine' // Back to sine for softer tone
+
+    gainNode.gain.setValueAtTime(gain, startTime)
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration)
+
+    osc.start(startTime)
+    osc.stop(startTime + duration)
   },
 
   updateTimerDisplay() {
@@ -129,7 +144,17 @@ init() {
 
     // Wire timer button
     const timerBtn = document.getElementById('timerToggleBtn')
-    if (timerBtn) timerBtn.onclick = () => App.toggleTimer()
+    if (timerBtn) {
+      timerBtn.onclick = () => {
+        // Initialize audio context on first user interaction
+        App.initAudioContext()
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission()
+        }
+        App.toggleTimer()
+      }
+    }
 
     // Wire menu button toggle
     const menuBtn = document.getElementById('menuBtn')
@@ -174,6 +199,7 @@ init() {
     // Auto-start timer if there's already a task in DOING
     const doingTask = this.data.tasks.find(t => t.projectId === this.data.selectedProject && t.status === 'doing')
     if (doingTask) {
+      this.initAudioContext()
       this.startTimer()
     }
 
