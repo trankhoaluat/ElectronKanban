@@ -20,12 +20,15 @@ body {
 .title {
   font-weight: 600;
   font-size: 18px;
+  flex: 0 0 auto;
 }
 
 .timer {
   font-size: 32px;
   font-weight: bold;
   letter-spacing: 2px;
+  flex: 1;
+  text-align: center;
 }
 
 .timer-btn,
@@ -40,6 +43,7 @@ body {
   font-weight: 600;
   margin-left: 12px;
   transition: background 0.2s;
+  flex: 0 0 auto;
 }
 
 .timer-btn:hover,
@@ -50,7 +54,7 @@ body {
 /* Menu container and dropdown */
 .menu-container {
   position: relative;
-  margin-left: auto;
+  flex: 0 0 auto;
 }
 
 .menu-btn {
@@ -67,7 +71,7 @@ body {
   border-radius: 6px;
   min-width: 140px;
   margin-top: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
 
