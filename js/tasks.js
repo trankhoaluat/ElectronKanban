@@ -12,8 +12,23 @@ const Tasks = {
   },
 
   move(task) {
-    if (task.status === "todo") task.status = "doing"
-    else if (task.status === "doing") task.status = "done"
+    if (task.status === "todo") {
+      // enforce only one doing task per project
+      const existing = task && task.projectId ?
+        App.data.tasks.find(t => t.projectId === task.projectId && t.status === 'doing') : null
+      if (existing && existing.id !== task.id) {
+        alert('There is already a task in DOING. Finish it before starting another.')
+        return
+      }
+      task.status = "doing"
+      if (typeof App !== 'undefined' && App.startTimer) App.startTimer()
+    }
+    else if (task.status === "doing") {
+      task.status = "done"
+      // if no more doing tasks for this project, reset timer
+      const anyDoing = App.data.tasks.some(t => t.projectId === task.projectId && t.status === 'doing')
+      if (!anyDoing && typeof App !== 'undefined' && App.resetTimer) App.resetTimer()
+    }
   },
 
   render(data) {
@@ -34,7 +49,25 @@ const Tasks = {
         const id = e.dataTransfer.getData('text/plain')
         const task = data.tasks.find(t => t.id === id)
         if (!task) return
+        // enforce single DOING
+        if (col === 'doing') {
+          const existing = data.tasks.find(t => t.projectId === data.selectedProject && t.status === 'doing')
+          if (existing && existing.id !== task.id) {
+            alert('Only one task can be in DOING at a time. Finish or move the current task first.')
+            return
+          }
+        }
+
+        const prevStatus = task.status
         task.status = col
+        if (col === 'doing' && typeof App !== 'undefined' && App.startTimer) {
+          App.startTimer()
+        }
+        // if moved out of doing and now none left, reset timer
+        if (prevStatus === 'doing' && col !== 'doing') {
+          const anyDoing = data.tasks.some(t => t.projectId === data.selectedProject && t.status === 'doing')
+          if (!anyDoing && typeof App !== 'undefined' && App.resetTimer) App.resetTimer()
+        }
         Storage.save(data)
         App.render()
       }
@@ -63,9 +96,14 @@ const Tasks = {
         del.onclick = (e) => {
           e.stopPropagation()
           if (!confirm(`Delete task "${task.text}"?`)) return
+          const wasDoing = task.status === 'doing'
           data.tasks = data.tasks.filter(t => t.id !== task.id)
           Storage.save(data)
           App.render()
+          if (wasDoing) {
+            const anyDoing = data.tasks.some(t => t.projectId === data.selectedProject && t.status === 'doing')
+            if (!anyDoing && typeof App !== 'undefined' && App.resetTimer) App.resetTimer()
+          }
         }
         div.appendChild(del)
 

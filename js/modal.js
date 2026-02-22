@@ -54,16 +54,39 @@ const Modal = {
     modal.classList.remove("hidden")
 
     document.getElementById("saveBtn").onclick = () => {
+      const newStatus = document.getElementById("editStatus").value
+
+      // enforce single DOING
+      if (newStatus === 'doing') {
+        const existing = data.tasks.find(t => t.projectId === task.projectId && t.status === 'doing')
+        if (existing && existing.id !== task.id) {
+          alert('Only one task can be in DOING at a time. Finish or move the current task first.')
+          return
+        }
+      }
+
+      const prevStatus = task.status
+
       task.text = document.getElementById("editTitle").value
       task.description = document.getElementById("editDescription").value
       task.color = document.getElementById("editColor").value
       task.pomodoroWork = parseInt(document.getElementById("editWork").value, 10) || 25
       task.pomodoroBreak = parseInt(document.getElementById("editBreak").value, 10) || 5
       task.pomodoroSessions = parseInt(document.getElementById("editSessions").value, 10) || 4
-      task.status = document.getElementById("editStatus").value
+      task.status = newStatus
+
       Storage.save(data)
       App.render()
       Modal.close()
+
+      // start/reset timer according to change
+      if (prevStatus !== 'doing' && newStatus === 'doing' && typeof App !== 'undefined' && App.startTimer) {
+        App.startTimer()
+      }
+      if (prevStatus === 'doing' && newStatus !== 'doing') {
+        const anyDoing = data.tasks.some(t => t.projectId === task.projectId && t.status === 'doing')
+        if (!anyDoing && typeof App !== 'undefined' && App.resetTimer) App.resetTimer()
+      }
     }
 
     // initialize palette selection

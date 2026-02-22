@@ -49,7 +49,7 @@ const Projects = {
         Storage.save(data)
         App.render()
       }
-      div.appendChild(del)
+      div.appendChild(del)  
 
       if (p.id === data.selectedProject)
         // div.style.background = "#555"

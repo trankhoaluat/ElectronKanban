@@ -73,6 +73,30 @@
   padding: 0 6px;
 }
 
+/* badge showing completed tasks count on project cards */
+.completed-badge {
+  display: inline-block;
+  background: rgba(0,0,0,0.2);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+/* badge inside DONE header */
+.done-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
 .column-footer {
   padding: 10px;
   border-top: 1px solid #2a323a;
