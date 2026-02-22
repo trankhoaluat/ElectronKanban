@@ -50,6 +50,29 @@
   transform: translateY(-2px);
 }
 
+/* small delete button inside cards (projects/tasks) */
+.card .delete-btn {
+  float: right;
+  background: transparent;
+  border: none;
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 6px;
+  margin-left: 8px;
+}
+
+/* small edit button inside project cards */
+.card .edit-btn {
+  float: right;
+  background: transparent;
+  border: none;
+  color: #111;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
 .column-footer {
   padding: 10px;
   border-top: 1px solid #2a323a;
