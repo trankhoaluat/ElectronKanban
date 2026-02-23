@@ -134,6 +134,11 @@ npm run dist           # Build Linux AppImage (requires Docker or wine)
 npm run package:mac    # Package macOS app
 ```
 
+## to run simple 
+```bash
+npx electron-packager . ElectronKanban --platform=darwin --arch=x64 --out=dist --overwrite --asar
+```
+
 ## Keyboard Shortcuts
 
 - **No custom shortcuts yet** (planned feature)

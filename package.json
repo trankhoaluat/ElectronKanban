@@ -7,7 +7,20 @@
     "start": "electron .",
     "dev": "electron .",
     "package:mac": "electron-packager . ElectronKanban --platform=darwin --arch=x64 --out=dist --overwrite",
+    "build:mac": "electron-builder --mac",
     "dist": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.yourname.electronkanban",
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.productivity"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/*/{test,tests,example,examples,docs}"
+    ],
+    "asar": true
   },
   "devDependencies": {
     "electron": "^26.0.0",
